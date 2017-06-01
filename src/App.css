@@ -1,0 +1,36 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #2D445A;
+  padding: 10px 15px;
+  color: white;
+  text-align: left;
+  display: flex;
+}
+
+.App-title {
+  font-weight: 300;
+  font-size: 20px;
+  color: #c4c8cb;
+}
+
+.App-icon {
+  font-size: 28px;
+  margin-right: 10px;
+  color: #65798c;
+}
+
+.App-searchbar {
+  margin: 10px 0;
+}
+
+.App-row-item {
+  max-width: 1300px;
+}
+
+.App-col-item {
+  display: flex;
+  justify-content: center;
+}
