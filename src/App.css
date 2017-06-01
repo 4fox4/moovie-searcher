@@ -4,16 +4,22 @@
 
 .App-header {
   background-color: #2D445A;
-  padding: 10px 15px;
+  padding: 5px 15px 0 15px;
   color: white;
-  text-align: left;
+  text-align: center;
   display: flex;
+  height: 150px;
+  justify-content: center;
 }
 
 .App-title {
   font-weight: 300;
   font-size: 20px;
   color: #c4c8cb;
+}
+
+.App-logo {
+  height: 100%;
 }
 
 .App-icon {

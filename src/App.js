@@ -3,6 +3,7 @@ import MovieCard from './MovieCard';
 import { Input, Row, Col, Icon } from 'antd';
 import './App.css';
 import 'antd/dist/antd.css';
+import Logo from "./moovie_v2.png";
 
 const Search = Input.Search
 
@@ -54,8 +55,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <Icon className="App-icon" type="video-camera" />
-          <h1 className="App-title">Movie Searcher</h1>
+          <img className="App-logo" alt="logo app" src={Logo} />
         </div>
         <Search
           className="App-searchbar"
