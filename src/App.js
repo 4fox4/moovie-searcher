@@ -70,8 +70,9 @@ class App extends Component {
                 <Col className="App-col-item" key={item.id} xs={24} sm={12} md={6} lg={6} xl={6}>
                   <MovieCard movie={item} />
                 </Col>
-              ))}</Row>
-              : <div>No results</div>
+              ))}
+            </Row>
+            : <div>No results</div>
           }
         </div>
       </div>
