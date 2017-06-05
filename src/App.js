@@ -29,11 +29,13 @@ class App extends Component {
     console.log("componentDidUpdate called");
   }
   componentDidMount() {
-    var favorites = JSON.parse(localStorage.getItem("favorites"));
-    if (favorites && favorites.length)
-      this.setState("favorites", favorites);
-    //  alert(this.state.favorites);
-    console.log("componentDidUpdate called");
+    if (localStorage.getItem("favorites"))
+      var favorites = JSON.parse(localStorage.getItem("favorites"));
+    console.log(this.state.favorites);
+    if (favorites && favorites.length) {
+      this.setState({"favorites": favorites});
+    }
+    console.log("componentDidMount called");
   }
 
   updateSearch(value) {
@@ -73,7 +75,7 @@ class App extends Component {
             <Row className="App-row-item" type="flex" justify="center">{this.state.items.map(
               item => (
                 <Col className="App-col-item" key={item.id} xs={24} sm={12} md={6} lg={6} xl={6}>
-                  <MovieCard movie={item} />
+                  <MovieCard favorites={this.state.favorites} movie={item} />
                 </Col>
               ))}
             </Row>

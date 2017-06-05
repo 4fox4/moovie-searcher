@@ -5,6 +5,7 @@
   "dependencies": {
     "antd": "^2.10.2",
     "react": "^15.5.4",
+    "react-addons-update": "^15.5.2",
     "react-dom": "^15.5.4"
   },
   "devDependencies": {
