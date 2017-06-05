@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MovieCard from './MovieCard';
-import { Input, Row, Col, Icon } from 'antd';
+import { Input, Row, Col } from 'antd';
 import './App.css';
 import 'antd/dist/antd.css';
 import Logo from "./moovie_v2.png";
@@ -11,7 +11,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: []
+      items: [],
+      favorites: []
     };
   }
 
@@ -28,6 +29,10 @@ class App extends Component {
     console.log("componentDidUpdate called");
   }
   componentDidMount() {
+    var favorites = JSON.parse(localStorage.getItem("favorites"));
+    if (favorites && favorites.length)
+      this.setState("favorites", favorites);
+    //  alert(this.state.favorites);
     console.log("componentDidUpdate called");
   }
 
