@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import './MovieCard.css';
 import { Card, Rate, Tag, Button } from 'antd';
 import 'antd/dist/antd.css';
-
 // import update from 'react-addons-update';
+import update from 'immutability-helper';
+
+// import App from './App';
 
 const imagePath = "https://image.tmdb.org/t/p/w185_and_h278_bestv2";
 
@@ -24,13 +26,13 @@ class MovieCard extends Component {
     return (diffProps || diffStates);
   }
   componentWillUpdate(nextProps, nextState) {
-    console.log("componentWillUpdate called");
+    console.log("MovieCard componentWillUpdate called");
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log("componentDidUpdate called");
+    console.log("MovieCard componentDidUpdate called");
   }
   componentDidMount() {
-    console.log("componentDidMount called");
+    console.log("MovieCard componentDidMount called");
   }
 
   dateConverter(value) {
@@ -86,12 +88,15 @@ class MovieCard extends Component {
 
   addFavorite() {
     console.log("addFavorite called");
-    // console.log(this);
-    var newFavorites = this.state.favorites;
-    console.log(this.state.movie);
-    newFavorites.push(this.state.movie);
-    localStorage.setItem("favorites", JSON.stringify(newFavorites));
-    this.setState({"favorites": newFavorites});
+
+    console.log(this.state.favorites);
+
+    var newArray = update(this.state.favorites, {$push: [this.state.movie]});
+
+    console.log(this.state.favorites);
+
+    localStorage.setItem("favorites", JSON.stringify(newArray));
+    this.setState({"favorites": newArray});
   }
 
   deleteFavorite() {
@@ -108,7 +113,6 @@ class MovieCard extends Component {
           <Button onClick={this.deleteFavorite} shape="circle" icon="heart" /> :
           <Button onClick={this.addFavorite} shape="circle" icon="heart-o" />
         }>
-
         <div className="MovieCard-image-container">
           <div className="MovieCard-image"
             style={{
@@ -117,7 +121,6 @@ class MovieCard extends Component {
             }}>
           </div>
         </div>
-
         <div className="MovieCard-body-container">
           <h3 className="MovieCard-body-title">{this.state.movie.title}</h3>
           <h4 className="MovieCard-body-condensed">Rate</h4>

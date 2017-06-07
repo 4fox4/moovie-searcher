@@ -11,24 +11,24 @@ class SearchTab extends Component {
     super(props);
     this.state = {
       items: [],
-      favorites: []
+      favorites: props.favorites
     };
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     var diffProps = (nextProps !== this.props) ? true : false;
     var diffStates = (nextState.items !== this.state.items) ? true : false;
-    console.log("shouldComponentUpdate called. diffProps: " + diffProps + ", diffStates: " + diffStates);
+    console.log("SearchTab shouldComponentUpdate called. diffProps: " + diffProps + ", diffStates: " + diffStates);
     return (diffProps || diffStates);
   }
   componentWillUpdate(nextProps, nextState) {
-    console.log("componentWillUpdate called");
+    console.log("SearchTab componentWillUpdate called");
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log("componentDidUpdate called");
+    console.log("SearchTab componentDidUpdate called");
   }
   componentDidMount() {
-    console.log("componentDidMount called");
+    console.log("SearchTab componentDidMount called");
   }
 
   updateSearch(value) {

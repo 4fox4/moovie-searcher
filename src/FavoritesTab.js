@@ -15,17 +15,17 @@ class FavoritesTab extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     var diffProps = (nextProps !== this.props) ? true : false;
     var diffStates = (nextState.favorites !== this.state.favorites) ? true : false;
-    console.log("shouldComponentUpdate called. diffProps: " + diffProps + ", diffStates: " + diffStates);
+    console.log("FavoritesTab shouldComponentUpdate called. diffProps: " + diffProps + ", diffStates: " + diffStates);
     return (diffProps || diffStates);
   }
   componentWillUpdate(nextProps, nextState) {
-    console.log("componentWillUpdate called");
+    console.log("FavoritesTab componentWillUpdate called");
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log("componentDidUpdate called");
+    console.log("FavoritesTab componentDidUpdate called");
   }
   componentDidMount() {
-    console.log("componentDidMount called");
+    console.log("FavoritesTab componentDidMount called");
   }
 
   render() {

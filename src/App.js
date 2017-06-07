@@ -19,14 +19,14 @@ class App extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     var diffProps = (nextProps !== this.props) ? true : false;
     var diffStates = (nextState.favorites !== this.state.favorites) ? true : false;
-    console.log("shouldComponentUpdate called. diffProps: " + diffProps + ", diffStates: " + diffStates);
+    console.log("App shouldComponentUpdate called. diffProps: " + diffProps + ", diffStates: " + diffStates);
     return (diffProps || diffStates);
   }
   componentWillUpdate(nextProps, nextState) {
-    console.log("componentWillUpdate called");
+    console.log("App componentWillUpdate called");
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log("componentDidUpdate called");
+    console.log("App componentDidUpdate called");
   }
   componentDidMount() {
     if (localStorage.getItem("favorites"))
@@ -35,7 +35,7 @@ class App extends Component {
       this.setState({"favorites": favorites});
     }
     console.log(this.state.favorites);
-    console.log("componentDidMount called");
+    console.log("App componentDidMount called");
   }
 
   // <img className="App-logo" alt="logo app" src={Logo} />
@@ -56,7 +56,7 @@ class App extends Component {
             justifyContent: "center"
           }}>
           <TabPane tab={<span><Icon type="search" />Search</span>} key="1">
-            <SearchTab />
+            <SearchTab favorites={this.state.favorites} />
           </TabPane>
           <TabPane tab={<span><Icon type="heart" />Favorites</span>} key="2">
             <FavoritesTab favorites={this.state.favorites} />
