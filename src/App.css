@@ -4,39 +4,25 @@
 
 .App-header {
   background-color: #2D445A;
-  padding: 5px 15px 0 15px;
+  padding: 5px 15px;
   color: white;
-  text-align: center;
+  text-align: left;
   display: flex;
-  height: 150px;
-  justify-content: center;
+  /*height: 50px;*/
+  justify-content: flex-start;
 }
 
 .App-title {
+  font-family: 'Noto Serif', serif;
   font-weight: 300;
-  font-size: 20px;
-  color: #c4c8cb;
+  font-size: 25px;
+  /*color: #c4c8cb;*/
 }
 
-.App-logo {
+.App-tabs {
+  color: white;
+}
+
+/*.App-logo {
   height: 100%;
-}
-
-.App-icon {
-  font-size: 28px;
-  margin-right: 10px;
-  color: #65798c;
-}
-
-.App-searchbar {
-  margin: 10px 0;
-}
-
-.App-row-item {
-  max-width: 1300px;
-}
-
-.App-col-item {
-  display: flex;
-  justify-content: center;
-}
+}*/

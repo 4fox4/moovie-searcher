@@ -1,0 +1,17 @@
+.SearchTab {
+  color: white;
+}
+
+.SearchTab-searchbar {
+  margin: 10px 0;
+}
+
+.SearchTab-row-item {
+  max-width: 1300px;
+  margin-top: 10px;
+}
+
+.SearchTab-col-item {
+  display: flex;
+  justify-content: center;
+}

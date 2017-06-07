@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './MovieCard.css';
-import { Card, Rate, Tag, Icon } from 'antd';
+import { Card, Rate, Tag, Button } from 'antd';
 import 'antd/dist/antd.css';
 
-import update from 'react-addons-update';
+// import update from 'react-addons-update';
 
 const imagePath = "https://image.tmdb.org/t/p/w185_and_h278_bestv2";
 
@@ -14,12 +14,13 @@ class MovieCard extends Component {
       movie: props.movie,
       favorites: props.favorites
     };
+    this.addFavorite = this.addFavorite.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     var diffProps = (nextProps !== this.props) ? true : false;
-    var diffStates = (nextState.items !== this.state.items) ? true : false;
-    console.log("shouldComponentUpdate called. diffProps: " + diffProps + ", diffStates: " + diffStates);
+    var diffStates = (nextState.favorites !== this.state.favorites) ? true : false;
+    console.log("MovieCard shouldComponentUpdate called. diffProps: " + diffProps + ", diffStates: " + diffStates);
     return (diffProps || diffStates);
   }
   componentWillUpdate(nextProps, nextState) {
@@ -76,23 +77,25 @@ class MovieCard extends Component {
   }
 
   favoriteChecker(id) {
-    for (var i in this.favorites) {
-      if (this.favorites[i].id === id)
+    for (var i in this.state.favorites) {
+      if (this.state.favorites[i].id === id)
         return (true);
     }
     return (false);
   }
 
-  addFavorite(movie) {
+  addFavorite() {
     console.log("addFavorite called");
+    // console.log(this);
     var newFavorites = this.state.favorites;
-    newFavorites.push(movie);
+    console.log(this.state.movie);
+    newFavorites.push(this.state.movie);
     localStorage.setItem("favorites", JSON.stringify(newFavorites));
     this.setState({"favorites": newFavorites});
   }
 
-  deleteFavorite(id) {
-
+  deleteFavorite() {
+    console.log("deleteFavorite called");
   }
 
   render() {
@@ -102,8 +105,8 @@ class MovieCard extends Component {
         style={{ width: 290 }}
         bordered={false}
         extra={this.favoriteChecker(this.state.movie.id) ?
-          <Icon onClick={this.deleteFavorite(this.state.movie.id)} type="heart" /> :
-          <Icon onClick={this.addFavorite(this.state.movie)} type="heart-o" />
+          <Button onClick={this.deleteFavorite} shape="circle" icon="heart" /> :
+          <Button onClick={this.addFavorite} shape="circle" icon="heart-o" />
         }>
 
         <div className="MovieCard-image-container">

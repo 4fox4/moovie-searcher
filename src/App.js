@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
-import MovieCard from './MovieCard';
-import { Input, Row, Col } from 'antd';
+import SearchTab from './SearchTab';
+import FavoritesTab from './FavoritesTab';
+import { Tabs, Icon } from 'antd';
 import './App.css';
 import 'antd/dist/antd.css';
-import Logo from "./moovie_v2.png";
+// import Logo from "./moovie_v5.png";
 
-const Search = Input.Search
+const TabPane = Tabs.TabPane;
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [],
       favorites: []
     };
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     var diffProps = (nextProps !== this.props) ? true : false;
-    var diffStates = (nextState.items !== this.state.items) ? true : false;
+    var diffStates = (nextState.favorites !== this.state.favorites) ? true : false;
     console.log("shouldComponentUpdate called. diffProps: " + diffProps + ", diffStates: " + diffStates);
     return (diffProps || diffStates);
   }
@@ -31,57 +31,37 @@ class App extends Component {
   componentDidMount() {
     if (localStorage.getItem("favorites"))
       var favorites = JSON.parse(localStorage.getItem("favorites"));
-    console.log(this.state.favorites);
     if (favorites && favorites.length) {
       this.setState({"favorites": favorites});
     }
+    console.log(this.state.favorites);
     console.log("componentDidMount called");
   }
 
-  updateSearch(value) {
-    if (value) {
-      var search = "";
-      search = value.trim();
-      search = search.replace(" ", "+");
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", "https://api.themoviedb.org/3/search/movie?api_key=1a3874bc7afbfe23569075ab2c05108e&language=fr-FR&page=1&include_adult=false&query=" + search);
-      // xhr.withCredentials = true;
-      // xhr.addEventListener("readystatechange", function () {
-      xhr.onload = function(e){
-        if (this.readyState === this.DONE) {
-          var data = JSON.parse(xhr.response);
-          this.setState({items: data.results});
-          console.log(this.state.items);
-        }
-      }.bind(this);
-      xhr.send(this.state.items);
-    }
-  }
+  // <img className="App-logo" alt="logo app" src={Logo} />
 
   render() {
     return (
       <div className="App">
         <div className="App-header">
-          <img className="App-logo" alt="logo app" src={Logo} />
+          <h1 className="App-title">Moovie Searcher</h1>
         </div>
-        <Search
-          className="App-searchbar"
-          placeholder="Type a movie"
-          style={{ width: 250 }}
-          onSearch={ value => this.updateSearch(value) }
-        />
-        <div style={{display: "flex", justifyContent: "center"}}>
-          {this.state.items.length ?
-            <Row className="App-row-item" type="flex" justify="center">{this.state.items.map(
-              item => (
-                <Col className="App-col-item" key={item.id} xs={24} sm={12} md={6} lg={6} xl={6}>
-                  <MovieCard favorites={this.state.favorites} movie={item} />
-                </Col>
-              ))}
-            </Row>
-            : <div>No results</div>
-          }
-        </div>
+        <Tabs
+          className="App-tabs"
+          defaultActiveKey="1"
+          tabBarStyle={{
+            border: "inherit",
+            backgroundColor: "rgba(45, 68, 90, 0.56)",
+            display: "flex",
+            justifyContent: "center"
+          }}>
+          <TabPane tab={<span><Icon type="search" />Search</span>} key="1">
+            <SearchTab />
+          </TabPane>
+          <TabPane tab={<span><Icon type="heart" />Favorites</span>} key="2">
+            <FavoritesTab favorites={this.state.favorites} />
+          </TabPane>
+        </Tabs>
       </div>
     );
   }

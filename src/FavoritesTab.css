@@ -1,0 +1,13 @@
+.FavoritesTab {
+  color: white;
+}
+
+.FavoritesTab-row-item {
+  max-width: 1300px;
+  margin-top: 10px;
+}
+
+.FavoritesTab-col-item {
+  display: flex;
+  justify-content: center;
+}
