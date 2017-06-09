@@ -3,7 +3,10 @@ import './MovieCard.css';
 import { Card, Rate, Tag, Button } from 'antd';
 import 'antd/dist/antd.css';
 // import update from 'react-addons-update';
-import update from 'immutability-helper';
+// import update from 'immutability-helper';
+
+import { connect } from 'react-redux';
+import { addFavorite } from '../actions'
 
 // import App from './App';
 
@@ -16,12 +19,12 @@ class MovieCard extends Component {
       movie: props.movie,
       favorites: props.favorites
     };
-    this.addFavorite = this.addFavorite.bind(this);
+    this.addFavoriteToStore = this.addFavoriteToStore.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var diffProps = (nextProps !== this.props) ? true : false;
-    var diffStates = (nextState.favorites !== this.state.favorites) ? true : false;
+    var diffProps = (nextProps.favorites !== this.props.favorites) ? true : false;
+    var diffStates = (nextState !== this.state) ? true : false;
     console.log("MovieCard shouldComponentUpdate called. diffProps: " + diffProps + ", diffStates: " + diffStates);
     return (diffProps || diffStates);
   }
@@ -79,24 +82,25 @@ class MovieCard extends Component {
   }
 
   favoriteChecker(id) {
-    for (var i in this.state.favorites) {
-      if (this.state.favorites[i].id === id)
+    for (var i in this.props.favorites) {
+      if (this.props.favorites[i].id === id)
         return (true);
     }
     return (false);
   }
 
-  addFavorite() {
+  addFavoriteToStore() {
     console.log("addFavorite called");
-
-    console.log(this.state.favorites);
-
-    var newArray = update(this.state.favorites, {$push: [this.state.movie]});
-
-    console.log(this.state.favorites);
-
-    localStorage.setItem("favorites", JSON.stringify(newArray));
-    this.setState({"favorites": newArray});
+    console.log(this.props.favorites);
+    this.props.dispatch(addFavorite(this.movie));
+    // console.log(this.state.favorites);
+    //
+    // var newArray = update(this.state.favorites, {$push: [this.state.movie]});
+    //
+    // console.log(this.state.favorites);
+    //
+    // localStorage.setItem("favorites", JSON.stringify(newArray));
+    // this.setState({"favorites": newArray});
   }
 
   deleteFavorite() {
@@ -104,14 +108,15 @@ class MovieCard extends Component {
   }
 
   render() {
+    console.log("render called");
     return (
       <Card className="MovieCard-card"
         bodyStyle={{ padding: 0, display: "flex", backgroundColor: "#2D445A" }}
         style={{ width: 290 }}
         bordered={false}
         extra={this.favoriteChecker(this.state.movie.id) ?
-          <Button onClick={this.deleteFavorite} shape="circle" icon="heart" /> :
-          <Button onClick={this.addFavorite} shape="circle" icon="heart-o" />
+          <Button onClick={0} shape="circle" icon="heart" /> :
+          <Button onClick={this.addFavoriteToStore} shape="circle" icon="heart-o" />
         }>
         <div className="MovieCard-image-container">
           <div className="MovieCard-image"
@@ -138,4 +143,10 @@ class MovieCard extends Component {
   }
 }
 
-export default MovieCard;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    favorites: state.favorites
+  }
+};
+
+export default MovieCard = connect(mapStateToProps)(MovieCard);
