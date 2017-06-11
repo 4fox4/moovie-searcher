@@ -4,17 +4,19 @@ import { Row, Col } from 'antd';
 import './FavoritesTab.css';
 import 'antd/dist/antd.css';
 
+import { connect } from 'react-redux';
+
 class FavoritesTab extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      favorites: props.favorites
+
     };
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var diffProps = (nextProps !== this.props) ? true : false;
-    var diffStates = (nextState.favorites !== this.state.favorites) ? true : false;
+    var diffProps = (nextProps.favorites !== this.props.favorites) ? true : false;
+    var diffStates = (nextState !== this.state) ? true : false;
     console.log("FavoritesTab shouldComponentUpdate called. diffProps: " + diffProps + ", diffStates: " + diffStates);
     return (diffProps || diffStates);
   }
@@ -32,11 +34,11 @@ class FavoritesTab extends Component {
     return (
       <div className="FavoritesTab">
         <div style={{display: "flex", justifyContent: "center"}}>
-          {this.state.favorites.length ?
-            <Row className="FavoritesTab-row-item" type="flex" justify="center">{this.state.favorites.map(
+          {this.props.favorites.length ?
+            <Row className="FavoritesTab-row-item" type="flex" justify="center">{this.props.favorites.map(
               favorite => (
                 <Col className="FavoritesTab-col-item" key={"favorites-" + favorite.id} xs={24} sm={12} md={6} lg={6} xl={6}>
-                  <MovieCard favorites={this.state.favorites} movie={favorite} />
+                  <MovieCard favorites={this.props.favorites} movie={favorite} />
                 </Col>
               ))}
             </Row>
@@ -48,4 +50,10 @@ class FavoritesTab extends Component {
   }
 }
 
-export default FavoritesTab;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    favorites: state.favorites
+  }
+};
+
+export default FavoritesTab = connect(mapStateToProps)(FavoritesTab);

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import './MovieCard.css';
-import { Card, Rate, Tag, Button } from 'antd';
+import { Card, Rate, Tag, Button, message } from 'antd';
 import 'antd/dist/antd.css';
 // import update from 'react-addons-update';
-// import update from 'immutability-helper';
+import update from 'immutability-helper';
 
 import { connect } from 'react-redux';
-import { addFavorite } from '../actions'
+import { addFavorite } from '../actions';
+import { deleteFavorite } from '../actions';
 
 // import App from './App';
 
@@ -16,10 +17,10 @@ class MovieCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      movie: props.movie,
-      favorites: props.favorites
+      movie: props.movie
     };
     this.addFavoriteToStore = this.addFavoriteToStore.bind(this);
+    this.deleteFavoriteToStore = this.deleteFavoriteToStore.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -45,6 +46,9 @@ class MovieCard extends Component {
   }
 
   getMovieGenre(ids) {
+    // console.log(ids);
+    if (!ids)
+      return;
     var tabIdGenres = [28,12,16,35,80,99,18,10751,14,36,27,10402,9648,10749,878,10770,53,10752,37]
     var genres = [
       {"id":28,"name":"Action", "color": "red"},
@@ -67,21 +71,23 @@ class MovieCard extends Component {
       {"id":10752,"name":"War", "color": "red"},
       {"id":37,"name":"Western", "color": "orange"}
     ];
-    for (var i in ids)
+    for (var i in ids) {
       for (var j in tabIdGenres)
         if (ids[i] === tabIdGenres[j])
           ids[i] = j;
+    }
     const tags = ids.map(currentId => (
       <Tag className="MovieCard-body-tag-genre"
-        key={"tag-" + genres[currentId].name + currentId}
-        color={genres[currentId].color}>
-        {genres[currentId].name}
+        key={"tag-" + (genres[currentId] ? genres[currentId].name : "None") + currentId}
+        color={genres[currentId] ? genres[currentId].color : "lightgrey"}>
+        {genres[currentId] ? genres[currentId].name : "None"}
       </Tag>
     ));
     return (tags);
   }
 
   favoriteChecker(id) {
+    // console.log(this.props.favorites);
     for (var i in this.props.favorites) {
       if (this.props.favorites[i].id === id)
         return (true);
@@ -91,20 +97,25 @@ class MovieCard extends Component {
 
   addFavoriteToStore() {
     console.log("addFavorite called");
-    console.log(this.props.favorites);
-    this.props.dispatch(addFavorite(this.movie));
-    // console.log(this.state.favorites);
-    //
-    // var newArray = update(this.state.favorites, {$push: [this.state.movie]});
-    //
-    // console.log(this.state.favorites);
-    //
-    // localStorage.setItem("favorites", JSON.stringify(newArray));
-    // this.setState({"favorites": newArray});
+    console.log(this.state.movie);
+    
+    var newArray = update(this.props.favorites, {$push: [this.state.movie]});
+    localStorage.setItem("favorites", JSON.stringify(newArray));
+    
+    this.props.dispatch(addFavorite(this.state.movie));
+    
+    var messageElem = <span style={{color:"grey"}}>{this.state.movie.title + " added to favorites"}</span>
+    message.success(messageElem);
   }
 
-  deleteFavorite() {
+  deleteFavoriteToStore() {
     console.log("deleteFavorite called");
+    console.log(this.props.favorites.indexOf(this.state.movie));
+
+    var newArray = update(this.props.favorites, {$splice: [[this.props.favorites.indexOf(this.state.movie), 1]]});
+    localStorage.setItem("favorites", JSON.stringify(newArray));
+
+    this.props.dispatch(deleteFavorite(this.props.favorites, this.state.movie));
   }
 
   render() {
@@ -115,8 +126,8 @@ class MovieCard extends Component {
         style={{ width: 290 }}
         bordered={false}
         extra={this.favoriteChecker(this.state.movie.id) ?
-          <Button onClick={0} shape="circle" icon="heart" /> :
-          <Button onClick={this.addFavoriteToStore} shape="circle" icon="heart-o" />
+          <Button className="MovieCard-body-favorite" onClick={this.deleteFavoriteToStore} type="danger" shape="circle" icon="heart" /> :
+          <Button className="MovieCard-body-favorite" onClick={this.addFavoriteToStore} shape="circle" icon="heart-o" />
         }>
         <div className="MovieCard-image-container">
           <div className="MovieCard-image"

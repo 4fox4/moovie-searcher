@@ -1,9 +1,14 @@
 const favorite = (state = {}, action) => {
   switch (action.type) {
     case 'ADD_FAVORITE':
-      return action.movie
+      return action.item
+    case 'DELETE_FAVORITE':
+      var newItems = action.items.slice()
+      var pos = newItems.indexOf(action.item)
+      newItems.splice(pos, 1)
+      return newItems
     case 'SET_FAVORITES':
-      return action.movie
+      return action.items
     default:
       return state
   }
@@ -16,10 +21,10 @@ const favorites = (state = [], action) => {
         ...state,
         favorite(undefined, action)
       ]
+    case 'DELETE_FAVORITE':
+      return favorite(undefined, action)
     case 'SET_FAVORITES':
-      return state.map(t =>
-        favorite(t, action)
-      )
+      return favorite(undefined, action)
     default:
       return state
   }

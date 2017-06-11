@@ -36,18 +36,20 @@ class SearchTab extends Component {
       var search = "";
       search = value.trim();
       search = search.replace(" ", "+");
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", "https://api.themoviedb.org/3/search/movie?api_key=1a3874bc7afbfe23569075ab2c05108e&language=fr-FR&page=1&include_adult=false&query=" + search);
-      // xhr.withCredentials = true;
-      // xhr.addEventListener("readystatechange", function () {
-      xhr.onload = function(e){
-        if (this.readyState === this.DONE) {
-          var data = JSON.parse(xhr.response);
-          this.setState({items: data.results});
-          console.log(this.state.items);
-        }
-      }.bind(this);
-      xhr.send(this.state.items);
+      if (search !== "") {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://api.themoviedb.org/3/search/movie?api_key=1a3874bc7afbfe23569075ab2c05108e&language=fr-FR&page=1&include_adult=false&query=" + search);
+        // xhr.withCredentials = true;
+        // xhr.addEventListener("readystatechange", function () {
+        xhr.onload = function(e){
+          if (this.readyState === this.DONE) {
+            var data = JSON.parse(xhr.response);
+            this.setState({items: data.results});
+            console.log(this.state.items);
+          }
+        }.bind(this);
+        xhr.send(this.state.items);
+      }
     }
   }
 
@@ -61,11 +63,11 @@ class SearchTab extends Component {
           onSearch={ value => this.updateSearch(value) }
         />
         <div style={{display: "flex", justifyContent: "center"}}>
-          {this.state.items.length ?
+          {(this.state.items && this.state.items.length) ?
             <Row className="SearchTab-row-item" type="flex" justify="center">{this.state.items.map(
               item => (
                 <Col className="SearchTab-col-item" key={"search-" + item.id} xs={24} sm={12} md={6} lg={6} xl={6}>
-                  <MovieCard favorites={this.state.favorites} movie={item} />
+                  <MovieCard movie={item} />
                 </Col>
               ))}
             </Row>
