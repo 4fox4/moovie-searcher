@@ -38,7 +38,7 @@ class SearchTab extends Component {
       search = search.replace(" ", "+");
       if (search !== "") {
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "https://api.themoviedb.org/3/search/movie?api_key=1a3874bc7afbfe23569075ab2c05108e&language=fr-FR&page=1&include_adult=false&query=" + search);
+        xhr.open("GET", "https://api.themoviedb.org/3/search/movie?api_key=1a3874bc7afbfe23569075ab2c05108e&language=en-EN&page=1&include_adult=false&query=" + search);
         // xhr.withCredentials = true;
         // xhr.addEventListener("readystatechange", function () {
         xhr.onload = function(e){
