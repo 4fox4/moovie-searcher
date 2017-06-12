@@ -66,7 +66,7 @@ class SearchTab extends Component {
           {(this.state.items && this.state.items.length) ?
             <Row className="SearchTab-row-item" type="flex" justify="center">{this.state.items.map(
               item => (
-                <Col className="SearchTab-col-item" key={"search-" + item.id} xs={24} sm={12} md={12} lg={6} xl={6}>
+                <Col className="SearchTab-col-item" key={"search-" + item.id} xs={24} sm={12} md={8} lg={6} xl={6}>
                   <MovieCard movie={item} />
                 </Col>
               ))}

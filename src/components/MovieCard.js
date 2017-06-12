@@ -98,12 +98,12 @@ class MovieCard extends Component {
   addFavoriteToStore() {
     console.log("addFavorite called");
     console.log(this.state.movie);
-    
+
     var newArray = update(this.props.favorites, {$push: [this.state.movie]});
     localStorage.setItem("favorites", JSON.stringify(newArray));
-    
+
     this.props.dispatch(addFavorite(this.state.movie));
-    
+
     var messageElem = <span style={{color:"grey"}}>{this.state.movie.title + " added to favorites"}</span>
     message.success(messageElem);
   }
@@ -116,6 +116,8 @@ class MovieCard extends Component {
     localStorage.setItem("favorites", JSON.stringify(newArray));
 
     this.props.dispatch(deleteFavorite(this.props.favorites, this.state.movie));
+    var messageElem = <span style={{color:"grey"}}>{this.state.movie.title + " removed to favorites"}</span>
+    message.error(messageElem);
   }
 
   render() {
