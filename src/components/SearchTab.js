@@ -32,6 +32,7 @@ class SearchTab extends Component {
   }
 
   updateSearch(value) {
+    console.log(this.refs);
     if (value) {
       var search = "";
       search = value.trim();
